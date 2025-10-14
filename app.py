@@ -16,6 +16,26 @@ from googleapiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
+# --- Load Google OAuth credentials dari Streamlit Secret ---
+if "google_oauth_client" in st.secrets:
+    client_secret = st.secrets["google_oauth_client"]
+    # Simpan sementara di file lokal (Streamlit Cloud environment ephemeral)
+    os.makedirs("temp", exist_ok=True)
+    creds_path = "temp/client_secret.json"
+    with open(creds_path, "w") as f:
+        json.dump(client_secret, f)
+else:
+    st.error("❌ Google OAuth credentials belum ada di Secrets!")
+    st.stop()
+
+# --- Inisialisasi OAuth Flow ---
+SCOPES = ["https://www.googleapis.com/auth/drive.file"]
+flow = Flow.from_client_secrets_file(
+    creds_path,
+    scopes=SCOPES,
+    redirect_uri=st.secrets.get("redirect_uri", "https://your-app-name.streamlit.app/")
+)
+
 # -----------------------
 # CONFIG / SCOPES
 # -----------------------
@@ -42,11 +62,14 @@ st.markdown(
 # -----------------------
 st.sidebar.header("Pengaturan Google Drive / OAuth WAJIB UPLOAD")
 
-col1, col2 = st.sidebar.columns(2)
-with col1:
-    uploaded_credentials = st.sidebar.file_uploader("Upload credentials.json (OAuth client) download di https://drive.google.com/file/d/11qM5KzOrPjsHd_ck46KWVYOhlz6jHM1c/view?usp=drive_link", type=["json"])
+# col1, col2 = st.sidebar.columns(2)
+# with col1:
+#     uploaded_credentials = st.sidebar.file_uploader("Upload credentials.json (OAuth client) download di https://drive.google.com/file/d/11qM5KzOrPjsHd_ck46KWVYOhlz6jHM1c/view?usp=drive_link", type=["json"])
     
-with col2:
+# with col2:
+#     uploaded_token = st.sidebar.file_uploader("Upload token.pickle (opsional, hasil autentikasi lokal) download di https://drive.google.com/file/d/1B7Jx4bav9HsGqd-f5DKNvi_omNY9v7tq/view?usp=drive_link", type=["pickle", "dat", "pkl"])
+col1 = st.sidebar.columns(2)
+with col1:
     uploaded_token = st.sidebar.file_uploader("Upload token.pickle (opsional, hasil autentikasi lokal) download di https://drive.google.com/file/d/1B7Jx4bav9HsGqd-f5DKNvi_omNY9v7tq/view?usp=drive_link", type=["pickle", "dat", "pkl"])
 
 # folder_id = st.sidebar.text_input("Folder ID Google Drive tujuan", value="", help="ID folder di Google Drive tempat gambar akan diupload")
