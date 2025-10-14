@@ -196,7 +196,7 @@ def parse_chat_file(chat_file_path, image_index):
                 "SN": current.get("SN",""),
                 "Qty EMRO": current.get("QTY EMRO",""),
                 "Qty ACTUAL": current.get("QTY ACTUAL",""),
-                "Remarkable": current.get("REMARKABLE",""),
+                "REMARK": current.get("REMARK",""),
                 "PHOTO FILE": image_file or "",
                 "PHOTO LINK": ""
             })
@@ -229,12 +229,13 @@ def parse_chat_file(chat_file_path, image_index):
                 key = key.strip().upper()
                 val = val.strip()
                 key_map = {
+                    "QTY": "QTY ACTUAL",
                     "QTY ACT": "QTY ACTUAL",
                     "QTY ACTUAL": "QTY ACTUAL",
                     "QTY EMRO": "QTY EMRO",
-                    "REMARK": "REMARKABLE",
-                    "REMARKS": "REMARKABLE",
-                    "REMARK(S)": "REMARKABLE",
+                    "REMARK": "REMARK",
+                    "REMARKS": "REMARK",
+                    "REMARK(S)": "REMARK",
                 }
                 key = key_map.get(key, key)
                 current[key] = val
@@ -247,7 +248,7 @@ def create_excel_bytes(entries):
     ws.title = "Stock Opname"
     headers = [
         "Tanggal", "Pengirim", "LOC", "BIN", "PN", "SN",
-        "Qty EMRO", "Qty ACTUAL", "Remarkable",
+        "Qty EMRO", "Qty ACTUAL", "REMARK",
         "PHOTO FILE", "PHOTO LINK"
     ]
     ws.append(headers)
