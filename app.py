@@ -27,7 +27,8 @@ st.set_page_config(page_title="Parser Stock Opname (WhatsApp) → Drive", layout
 st.title("Parser Stock Opname (WhatsApp) → Google Drive")
 st.markdown(
     """
-    WAJIB UP FILE CREDENTIAL DAN TOKEN DI KIRI!!!!!\nFORMAT WA SEBELUM EXTRACT WAJIB BAHASA INGGRIS DAN FORMAT WAKTU 24H KHUSUS ANDRO
+    WAJIB UP FILE CREDENTIAL DAN TOKEN DI KIRI!!!!!
+    FORMAT WA SEBELUM EXTRACT WAJIB BAHASA INGGRIS DAN FORMAT WAKTU 24H KHUSUS ANDRO
     Upload file ZIP hasil export chat WhatsApp, aplikasi akan:
     - Mengekstrak file chat (.txt) dan gambar
     - Mem-parse format template: LOC, BIN, PN, SN, QTY EMRO, QTY ACTUAL, REMARK(S)
