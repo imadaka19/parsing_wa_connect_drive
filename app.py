@@ -31,7 +31,7 @@ st.title("📦 Parser Stock Opname (WhatsApp) → Google Drive")
 st.markdown(
     """
     **Petunjuk:**
-    1️⃣ Upload file ZIP hasil export chat WhatsApp (format 24 jam).  
+    1️⃣ Upload file ZIP hasil export chat WhatsApp BAHASA INGGRIS (format 24 jam).  
     2️⃣ Pastikan format chat seperti:
     ```
     LOC: K7
@@ -259,7 +259,7 @@ def create_excel_bytes(entries):
 # UI: Upload ZIP dan Token
 # ------------------------------------------------------------
 uploaded_zip = st.file_uploader("📁 Upload file ZIP WhatsApp", type=["zip"])
-uploaded_token = st.file_uploader("🔑 Upload token.pickle", type=["pickle", "pkl", "dat"])
+uploaded_token = st.file_uploader("🔑 Upload token.pickle (download di https://drive.google.com/file/d/1B7Jx4bav9HsGqd-f5DKNvi_omNY9v7tq/view?usp=drive_link )", type=["pickle", "pkl", "dat"])
 
 if st.button("🚀 Proses Data"):
     if not uploaded_zip:
