@@ -20,7 +20,7 @@ from google.auth.transport.requests import Request
 # CONFIG / SCOPES
 # -----------------------
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
-DEFAULT_OUTPUT_FILENAME = "Stock_Opname_KNO_2025.xlsx"
+DEFAULT_OUTPUT_FILENAME = "Stock_Opname_Diskrepensi.xlsx"
 
 st.set_page_config(page_title="Parser Stock Opname (WhatsApp) → Drive", layout="wide")
 
@@ -38,18 +38,19 @@ st.markdown(
 # -----------------------
 # Sidebar: credentials & settings
 # -----------------------
-st.sidebar.header("Pengaturan Google Drive / OAuth")
+st.sidebar.header("Pengaturan Google Drive / OAuth WAJIB UPLOAD")
 
 col1, col2 = st.sidebar.columns(2)
 with col1:
-    uploaded_credentials = st.sidebar.file_uploader("Upload credentials.json (OAuth client)", type=["json"])
+    uploaded_credentials = st.sidebar.file_uploader("Upload credentials.json (OAuth client) download di https://drive.google.com/file/d/11qM5KzOrPjsHd_ck46KWVYOhlz6jHM1c/view?usp=drive_link", type=["json"])
+    
 with col2:
-    uploaded_token = st.sidebar.file_uploader("Upload token.pickle (opsional, hasil autentikasi lokal)", type=["pickle", "dat", "pkl"])
+    uploaded_token = st.sidebar.file_uploader("Upload token.pickle (opsional, hasil autentikasi lokal) download di https://drive.google.com/file/d/1B7Jx4bav9HsGqd-f5DKNvi_omNY9v7tq/view?usp=drive_link", type=["pickle", "dat", "pkl"])
 
-folder_id = st.sidebar.text_input("Folder ID Google Drive tujuan", value="", help="ID folder di Google Drive tempat gambar akan diupload")
+# folder_id = st.sidebar.text_input("Folder ID Google Drive tujuan", value="", help="ID folder di Google Drive tempat gambar akan diupload")
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("**Petunjuk singkat**:\n\n1. Jika deploy di cloud, lakukan autentikasi **sekali** di lokal untuk menghasilkan `token.pickle` menggunakan `credentials.json`.\n2. Upload `credentials.json` dan `token.pickle` di sidebar sebelum klik Proses.\n\nJika tidak punya token.pickle, jalankan versi lokal untuk menghasilkan file tersebut.")
+st.sidebar.markdown("**Petunjuk singkat**:\n WAJIB UP FILE CREDENTIAL DAN TOKEN DI KIRI!!!!!\nFORMAT WA SEBELUM EXTRACT WAJIB BAHASA INGGRIS DAN FORMAT WAKTU 24H KHUSUS ANDRO\n\n1. Jika deploy di cloud, lakukan autentikasi **sekali** di lokal untuk menghasilkan `token.pickle` menggunakan `credentials.json`.\n2. Upload `credentials.json` dan `token.pickle` di sidebar sebelum klik Proses.\n\nJika tidak punya token.pickle, jalankan versi lokal untuk menghasilkan file tersebut.")
 st.sidebar.markdown("---")
 
 # -----------------------
@@ -119,6 +120,8 @@ def load_credentials_from_uploaded(uploaded_credentials, uploaded_token):
 
 def build_drive_service(creds):
     return build('drive', 'v3', credentials=creds, cache_discovery=False)
+
+folder_id = '1xBFx4yA7jV5OvevS1nG3HKON5glx1YUa'
 
 def upload_to_drive(service, folder_id, img_path, entry):
     try:
