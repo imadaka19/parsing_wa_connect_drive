@@ -293,4 +293,21 @@ if st.button("🚀 Proses Data"):
         photo_name = entry.get("PHOTO FILE", "")
         if photo_name:
             img_path = find_image_fuzzy(photo_name, image_index)
-            if
+            if img_path and os.path.exists(img_path):
+                link = upload_to_drive(service, FOLDER_ID, img_path, entry)
+                entry["PHOTO LINK"] = link
+            else:
+                entry["PHOTO LINK"] = "NOT FOUND"
+        else:
+            entry["PHOTO LINK"] = "-"
+        progress.progress(int(100 * i / len(entries)))
+
+    excel_bytes = create_excel_bytes(entries)
+    st.download_button(
+        label="📥 Unduh Excel",
+        data=excel_bytes,
+        file_name=DEFAULT_OUTPUT_FILENAME,
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+
+    st.success("✅ Selesai! Semua foto telah diupload ke Drive dan hasil bisa diunduh.")
