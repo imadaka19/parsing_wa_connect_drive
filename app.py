@@ -4,7 +4,6 @@ import zipfile
 import re
 import io
 import pickle
-
 from datetime import datetime
 from difflib import get_close_matches
 
@@ -16,24 +15,27 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import Flow
 
-# --- Ambil data dari Streamlit secrets ---
-client_secret = {"installed": dict(st.secrets["google_oauth_client.installed"])}
+# --- Load Google OAuth credentials dari Streamlit Secret ---
+if "google_oauth_client" in st.secrets:
+    client_secret = st.secrets["google_oauth_client"]
+    # Simpan sementara di file lokal (Streamlit Cloud environment ephemeral)
+    os.makedirs("temp", exist_ok=True)
+    creds_path = "temp/client_secret.json"
+    with open(creds_path, "w") as f:
+        json.dump(client_secret, f)
+else:
+    st.error("❌ Google OAuth credentials belum ada di Secrets!")
+    st.stop()
 
-os.makedirs("temp", exist_ok=True)
-creds_path = "temp/client_secret.json"
-with open(creds_path, "w") as f:
-    json.dump(client_secret, f)
-
+# --- Inisialisasi OAuth Flow ---
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
-redirect_uri = st.secrets["redirect_uri"]
-
 flow = Flow.from_client_secrets_file(
     creds_path,
     scopes=SCOPES,
-    redirect_uri=redirect_uri
+    redirect_uri=st.secrets.get("redirect_uri", "https://your-app-name.streamlit.app/")
 )
+
 # -----------------------
 # CONFIG / SCOPES
 # -----------------------
