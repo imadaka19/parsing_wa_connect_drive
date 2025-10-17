@@ -27,8 +27,8 @@ st.set_page_config(page_title="Parser Stock Opname (WhatsApp) → Drive", layout
 st.title("Parser Stock Opname (WhatsApp) → Google Drive")
 st.markdown(
     """
-    WAJIB UP FILE CREDENTIAL DAN TOKEN DI KIRI!!!!!
-    FORMAT WA SEBELUM EXTRACT WAJIB BAHASA INGGRIS DAN FORMAT WAKTU 24H KHUSUS ANDRO
+    WAJIB UP FILE CREDENTIAL DAN TOKEN DI KIRI!!!!!\n
+    FORMAT WA SEBELUM EXTRACT WAJIB BAHASA INGGRIS DAN FORMAT WAKTU 24H KHUSUS ANDRO\n
     Upload file ZIP hasil export chat WhatsApp, aplikasi akan:
     - Mengekstrak file chat (.txt) dan gambar
     - Mem-parse format template: LOC, BIN, PN, SN, QTY EMRO, QTY ACTUAL, REMARK(S)
@@ -196,7 +196,7 @@ def parse_chat_file(chat_file_path, image_index):
                 "SN": current.get("SN",""),
                 "Qty EMRO": current.get("QTY EMRO",""),
                 "Qty ACTUAL": current.get("QTY ACTUAL",""),
-                "Remarkable": current.get("REMARKABLE",""),
+                "REMARK": current.get("REMARK",""),
                 "PHOTO FILE": image_file or "",
                 "PHOTO LINK": ""
             })
@@ -232,9 +232,9 @@ def parse_chat_file(chat_file_path, image_index):
                     "QTY ACT": "QTY ACTUAL",
                     "QTY ACTUAL": "QTY ACTUAL",
                     "QTY EMRO": "QTY EMRO",
-                    "REMARK": "REMARKABLE",
-                    "REMARKS": "REMARKABLE",
-                    "REMARK(S)": "REMARKABLE",
+                    "REMARK": "REMARK",
+                    "REMARKS": "REMARK",
+                    "REMARK(S)": "REMARK",
                 }
                 key = key_map.get(key, key)
                 current[key] = val
@@ -247,7 +247,7 @@ def create_excel_bytes(entries):
     ws.title = "Stock Opname"
     headers = [
         "Tanggal", "Pengirim", "LOC", "BIN", "PN", "SN",
-        "Qty EMRO", "Qty ACTUAL", "Remarkable",
+        "Qty EMRO", "Qty ACTUAL", "REMARK",
         "PHOTO FILE", "PHOTO LINK"
     ]
     ws.append(headers)
